@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gold AI Dashboard</title>
+  <style>
+    body {
+      background:#0f172a;
+      color:white;
+      font-family:sans-serif;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+    .card {
+      background:#1e293b;
+      padding:30px;
+      border-radius:15px;
+      width:350px;
+      text-align:center;
+    }
+    .bullish { color:#22c55e; }
+    .bearish { color:#ef4444; }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <h2>GOLD (XAUUSD)</h2>
+  <h3 id="signal">Loading...</h3>
+  <p id="analysis"></p>
+</div>
+
+<script>
+async function getAnalysis() {
+  const res = await fetch("/api/analyze");
+  const data = await res.json();
+
+  document.getElementById("analysis").innerText = data.text;
+
+  if (data.text.includes("Bullish")) {
+    document.getElementById("signal").innerHTML = "<span class='bullish'>Bullish</span>";
+  } else {
+    document.getElementById("signal").innerHTML = "<span class='bearish'>Bearish</span>";
+  }
+}
+
+getAnalysis();
+</script>
+
+</body>
+</html>
